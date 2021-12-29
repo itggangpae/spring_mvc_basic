@@ -9,5 +9,6 @@
 <body>
 	여기까지 오는지 확인<br/>
 	<a href="/">메인으로</a>
+	${map}
 </body>
 </html>
