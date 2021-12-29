@@ -3,18 +3,29 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<!-- 이벤트가 발생했을 때 수행되는 객체를 listener
+	Web에서는 웹 서버 프로그램 시작과 종료 그리고 세션이 생성되고 소멸될 때
+	호출되는 리스너가 존재합니다.
+	웹 서버 프로그램이 시작될 때 클래스의 내용을 실행하라는 설정 
+	listener 태그만 존재하면 WEB-INF/applicationContext.xml 파일의 내용을
+	읽어서 수행합니다.
+	context-param 이 있으면 applicationContext.xml 파일 대신에
+	여기에 작성된 파일들을 읽어서 수행합니다.
+	이런 파일이 여러개이면 하나의 파일 경로뒤에 추가하면 됩니다.-->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
 	
-	<!-- Creates the Spring Container shared by all Servlets and Filters -->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
 
-	<!-- Processes application requests -->
+	<!-- 서블릿 매핑 설정 
+	여기서는 Dispatcher-Servlet(Front-Controller) 설정 
+	init-param 이 없다면 WEB-INF/appServlet-servlet.xml 파일이 설정 파일인데 
+	init-param 이 있으면 그 태그에 설정된 value 가 설정 파일이 됩니다.-->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -24,7 +35,7 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-		
+	<!-- /요청이 오면 appServlet 이 처리 -->	
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>

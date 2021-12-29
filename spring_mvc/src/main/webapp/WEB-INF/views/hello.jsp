@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Spring MVC</title>
+<title>HELLO</title>
 </head>
 <body>
-	<a href="hello">처음 만들어보는 요청</a><br/>
+	여기까지 오는지 확인<br/>
+	<a href="/">메인으로</a>
 </body>
 </html>
