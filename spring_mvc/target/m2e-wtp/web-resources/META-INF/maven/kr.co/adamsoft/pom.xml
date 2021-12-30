@@ -16,6 +16,21 @@
 	</properties>
 
 	<dependencies>
+		<!-- Hibernate 사용을 위한 의존성 -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.4.2.Final</version>
+		</dependency>
+
+		<!-- 스프링에서 ORM 프레임워크를 사용하기 위한 의존성 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+
 		<!-- Spring Test 라이브러리 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -36,7 +51,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.21</version>
 		</dependency>
-		
+
 		<!-- Spring 에서 데이터베이스 사용하기 위한 의존성 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -50,7 +65,7 @@
 			<artifactId>mybatis</artifactId>
 			<version>3.5.7</version>
 		</dependency>
-		
+
 		<!-- Spring에서 MyBatis를 사용하기 위한 의존성 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -58,8 +73,7 @@
 			<version>2.0.6</version>
 		</dependency>
 
-		<!-- 데이터베이스 연동할 때 자세한 로그를 확인하기 위한
-		라이브러리의 의존성 -->
+		<!-- 데이터베이스 연동할 때 자세한 로그를 확인하기 위한 라이브러리의 의존성 -->
 		<dependency>
 			<groupId>org.bgee.log4jdbc-log4j2</groupId>
 			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.adamsoft.domain.Item;
 
-@Repository
+//@Repository
 public class ItemDao {
 	//데이터베이스 프레임워크의 인스턴스를 주입받아야 합니다.
 	@Autowired
@@ -18,4 +18,17 @@ public class ItemDao {
 		return sqlSession.selectList("itemmapper.getlist");
 	}
 	
+	public Item getItem(Integer itemid) {
+		return sqlSession.selectOne("itemmapper.getitem", itemid);
+	}
+	
 }
+
+
+
+
+
+
+
+
+

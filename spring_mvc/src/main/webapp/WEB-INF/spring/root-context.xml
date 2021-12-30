@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- 여기에는 모든 곳에서 공통적으로 사용하는 bean을 등록하거나 설정을 합니다. 
 	주로 데이터베이스 관련 설정을 합니다. -->
@@ -27,6 +29,7 @@
 	
 	<!-- 데이터베이스 연동 프레임워크 bean -->
 	<!-- XML 파일을 사용하는 MyBatis bean -->
+	<!-- 
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -40,8 +43,54 @@
 		class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
+	 -->
+	 
+	<!-- Mapper 인터페이스를 이용하는 MyBatis 설정 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- Mapper 인터페이스 설정 -->
+	<bean 
+	class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" 
+			value="kr.co.adamsoft.dao"/>
+	</bean>
 	
+	<!-- Hibernate 사용을 위한 bean 설정 -->
+	<bean 
+	class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+	id="sessionFactory">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mappingResources">
+			<list>
+				<value>kr/co/adamsoft/dao/item.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQLDialect
+			</value>
+		</property>
+	</bean>
 	
 	<!-- 트랜잭션 관련 bean -->
+	<!-- Spring JDBC 와 MyBatis 의 트랜잭션 매니저 -->
+	<!-- 
+	<bean 
+	class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+	id="transactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	 -->
+	 
+
 		
 </beans>
+
+
+
+
+
+
+

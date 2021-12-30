@@ -3,9 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- 자바 파일에서 사용한 annotation 설정을 여기서도 사용할 수 있도록 해주는 설정 -->
 	<annotation-driven />
@@ -37,7 +39,16 @@
 	-->
 	<default-servlet-handler/>
 	
+	<!-- Hibernate 의 트랜잭션 매니저 
+	 여기에 작성했는데 에러가 날때는 servlet-context.xml로 옮기면 되는 경우가 있음-->
+	 <beans:bean
+	 class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+	 id="transactionManager">
+	 	<beans:property name="sessionFactory" ref="sessionFactory" />
+	 </beans:bean>
 	
+	<!-- annotation을 이용해서 트랜잭션을 사용할 수 있도록 해주는 설정 -->
+	<tx:annotation-driven/>
 </beans:beans>
 
 

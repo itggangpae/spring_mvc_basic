@@ -51,7 +51,12 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
 					<tr class="record">
 						<td align="center">${item.itemid}</td>
 						<td align="left">&nbsp;
+						<!-- 파라미터를 이용해서 데이터를 전달하는 방식 -->
+						<!-- 
 						<a href="/detail.html?itemid=${item.itemid}">${item.itemname}</a>
+						 -->
+						<!-- URL을 이용해서 데이터를 전달하는 방식 --> 
+						<a href="/detail.html/${item.itemid}">${item.itemname}</a>
 						</td>
 						<td align="right">${item.price} 원&nbsp;</td>
 					</tr>	

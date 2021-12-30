@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.adamsoft.domain.Item;
 import kr.co.adamsoft.domain.User;
 import kr.co.adamsoft.service.ItemService;
 
@@ -140,11 +141,31 @@ public class HomeController {
 		//데이터에 변화가 생기면 특별한 경우가 아니고는 redirect
 		return "redirect:result";
 	}
+	
+	//상세보기 처리를 위한 메서드 - 파라미터를 이용하는 방식
+	/*
+	@RequestMapping(value="/detail.html")
+	public String getItem(
+			@RequestParam("itemid") Integer itemid, 
+			Model model){
+		//서비스 메서드 호출
+		Item item = itemService.getItem(itemid);
+		//출력할 데이터 저장
+		model.addAttribute("item", item);
+		//출력할 뷰 이름 리턴
+		return "detail";
+	}
+	*/
+	
+	@RequestMapping(value="/detail.html/{itemid}")
+	public String getItem(
+			@PathVariable Integer itemid, 
+			Model model){
+		//서비스 메서드 호출
+		Item item = itemService.getItem(itemid);
+		//출력할 데이터 저장
+		model.addAttribute("item", item);
+		//출력할 뷰 이름 리턴
+		return "detail";
+	}
 }
-
-
-
-
-
-
-
