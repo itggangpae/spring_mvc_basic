@@ -5,8 +5,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,11 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.adamsoft.domain.User;
+import kr.co.adamsoft.service.ItemService;
 
 
 //빈이 자동 생성
 @Controller
 public class HomeController {
+	@Autowired
+	private ItemService itemService;
 	
 	// /로 요청이 GET 방식으로 오면 호출되는 메서드
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -29,7 +34,11 @@ public class HomeController {
 	/// 요청이 오면 home 으로 포워딩 합니다.
 	//home 으로 포워딩 할 때 ViewResolver 설정에 의해서 
 	//WEB-INT/views/home.jsp 파일로 포워딩 합니다.
-	public String home(Locale locale, Model model) {
+	public String home(Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		//데이터를 저장해서 전달
+		model.addAttribute(
+			"list", itemService.getList(request, response));
 		return "home";
 	}
 	
