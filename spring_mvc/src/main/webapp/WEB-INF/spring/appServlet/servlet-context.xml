@@ -23,7 +23,34 @@
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="1" />
 	</beans:bean>
+	
+	
+	<!-- View 이름을 가지고 직접 View를 선택할 수 있도록 해주는 ViewResolver -->
+	<beans:bean 
+	class = "org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0"/>
+	</beans:bean>
+	
+	<!-- download 라는 뷰 이름이 왔을 때 DownloadView로 출력하도록 해주는 설정 -->
+	<beans:bean id="download" 
+	class="kr.co.adamsoft.view.DownloadView" />
+	
+	<!-- Controller에서 excel 이라는 뷰 이름을 리턴했을 때 
+	ExcelView 를 출력하도록 하는 설정 -->
+	<beans:bean id="excel" 
+	class="kr.co.adamsoft.view.ExcelView" />
+	
+	<!-- Controller에서 pdf 이라는 뷰 이름을 리턴했을 때 
+	ExcelView 를 출력하도록 하는 설정 -->
+	<beans:bean id="pdf" 
+	class="kr.co.adamsoft.view.PdfView" />
+	
+	<!--  Controller에서 json 이라는 뷰 이름을 리턴했을 때 JSONView로 출력 -->
+	<beans:bean id="json"
+	class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+	
 	
 	<!-- 어노테이션이 붙은 클래스의 빈을 자동생성해주는 패키지 설정
 	,를 하고 다른 패키지를 추가 할 수 있습니다. -->

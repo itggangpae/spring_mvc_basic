@@ -21,13 +21,20 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
 <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
-	<a href="hello">처음 만들어보는 요청</a><br/>
-	<a href="/detail/1025">상세보기</a><br/>
-	<a href="/param">파라미터 입력</a><br/>
+<ul>
+	<li><a href="hello" class="menu">처음 만들어보는 요청</a>
+	<li><a href="/detail/1025" class="menu">상세보기</a>
+	<li><a href="/param" class="menu">파라미터 입력</a>
 	
-	<a href="/forward">forwarding - 데이터 전달</a><br/>
-	<a href="/redirect">redirect - 데이터 전달</a><br/>
+	<li><a href="/forward" class="menu">forwarding - 데이터 전달</a>
+	<li><a href="/redirect" class="menu">redirect - 데이터 전달</a>
 	
+	<li><a href="fileview" class="menu">파일 목록 보기</a>
+	<li><a href="excel.xls" class="menu">엑셀 다운로드</a>
+	<li><a href="excelread" class="menu">엑셀 읽기</a>
+	<li><a href="item.pdf" class="menu">PDF 출력</a>
+	<li><a href="item.json" class="menu">JSON 출력</a>
+</ul>
 	<div align="center" class="body">
 		<h2>상품 목록</h2>
 		<table border="1">
