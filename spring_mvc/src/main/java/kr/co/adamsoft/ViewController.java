@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.adamsoft.domain.Item;
+import kr.co.adamsoft.domain.ItemReport;
 import kr.co.adamsoft.service.ItemService;
 import kr.co.adamsoft.service.ViewService;
 
@@ -108,6 +109,21 @@ public class ViewController {
 		model.addAttribute("list", list);
 		
 		return "json";
+	}
+	
+	//xml 요청을 처리하는 메서드
+	@RequestMapping(value="/item.xml")
+	public String xml(Model model, 
+			HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		//데이터 가져오기
+		List<Item> list = itemService.getList(request, response);
+		//데이터 저장
+		//XML 출력을 위한 어노테이션을 설정한 클래스의 인스턴스를 데이터로 지정
+		model.addAttribute("list", new ItemReport(list));
+		
+		return "itemreport";
 	}
 }
 

@@ -52,6 +52,30 @@
 	class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
 	
 	
+	<!-- /exception 요청이 오면 input 이라는 뷰이름을 리턴하도록 설정 -->
+	<view-controller path="/exception" view-name="input"/>
+	
+	<!-- itemreport 라는 View 이름이 전달된 경우 list 라는 데이터를 
+	XML로 출력하는 요청을 처리하는 뷰 설정 -->
+	<beans:bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller"
+	id="marshaller">
+		<beans:property name="classesToBeBound">
+			<beans:list>
+				<beans:value>
+					kr.co.adamsoft.domain.ItemReport
+				</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	<beans:bean 
+	class="org.springframework.web.servlet.view.xml.MarshallingView"
+	id="itemreport">
+		<beans:property name="marshaller" ref="marshaller" />
+		<beans:property name="modelKey" value="list" />
+	
+	</beans:bean>
+	
 	<!-- 어노테이션이 붙은 클래스의 빈을 자동생성해주는 패키지 설정
 	,를 하고 다른 패키지를 추가 할 수 있습니다. -->
 	<context:component-scan base-package="kr.co.adamsoft" />
@@ -76,6 +100,18 @@
 	
 	<!-- annotation을 이용해서 트랜잭션을 사용할 수 있도록 해주는 설정 -->
 	<tx:annotation-driven/>
+	
+	<!-- 메시지 파일 설정 -->
+	<beans:bean
+	class="org.springframework.context.support.ResourceBundleMessageSource"
+	id="messageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>message/label</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
 </beans:beans>
 
 

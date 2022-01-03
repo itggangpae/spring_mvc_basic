@@ -34,7 +34,20 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
 	<li><a href="excelread" class="menu">엑셀 읽기</a>
 	<li><a href="item.pdf" class="menu">PDF 출력</a>
 	<li><a href="item.json" class="menu">JSON 출력</a>
+	
+	<li><a href="item.csv" class="menu">텍스트 출력</a>
+	<li><a href="itemrest.json" class="menu">RESTController - JSON 출력</a>
+	
+	<li><a href="#" class="menu" id="ajax">ajax 요청(json)</a>
+	<li><a href="#" class="menu" id="ajaxxml">ajax 요청(xml)</a>
+	
+	<li><a href="exception" class="menu">예외발생</a>
+	
+	<li><a href="message" class="menu">스프링 메시지 출력</a>
+	
 </ul>
+	<div id="disp"></div>
+	
 	<div align="center" class="body">
 		<h2>상품 목록</h2>
 		<table border="1">
@@ -75,6 +88,83 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
 		</table>
 	</div>
 </body>
+
+<script>
+	//위치에 관계없이 스크립트를 사용하기 위해서 window 에 load 이벤트가 발생한 후 작업
+	window.addEventListener("load", function(){
+		//DOM 객체 찾아오기
+		var ajax = document.getElementById("ajax");
+		var disp = document.getElementById("disp");
+		//alert(ajax);
+		//alert(disp);
+		
+		//클릭 이벤트 처리
+		ajax.addEventListener("click", function(e){
+			//ajax 요청 객체 생성
+			var request = new XMLHttpRequest();
+			//요청 생성
+			request.open('get', '/itemrest.json')
+			//요청 전송
+			request.send('');
+			//응답이 오면 수행
+			request.addEventListener('load', function(e){
+				//alert(request.responseText);
+				//json 데이터 파싱 - List 이므로 배열로 생성
+				var list = JSON.parse(request.responseText);
+				//배열을 순회하면서 출력 내용 만들기
+				var output = '';
+				for(i in list){
+					var item = list[i];
+					
+					output += "<h3>" + item.itemname + "</h3>";
+					output += "<p>" + item.description + "</p>";
+				}
+				//disp에 출력
+				disp.innerHTML = output;
+			});
+			
+		});
+		
+		//xml 요청
+		var ajaxxml = document.getElementById("ajaxxml");
+		ajaxxml.addEventListener('click', function(e){
+			//ajax 요청 객체 생성
+			var request = new XMLHttpRequest();
+			//요청 생성
+			request.open('get', '/item.xml')
+			//요청 전송
+			request.send('');
+			//응답이 오면 수행
+			request.addEventListener('load', function(e){
+				//가져온 문자열을 XML로 변환
+				var list = request.responseXML;
+				//alert(list)
+				
+				//원하는 태그를 가져옵니다.
+				var itemnames = list.getElementsByTagName("itemname");
+				var descriptions = list.getElementsByTagName("description");
+				
+				var output = '';
+				for(var i=0; i<itemnames.length; i=i+1){
+					var itemname = itemnames[i].childNodes[0].nodeValue;
+					//alert(itemname);
+					var description = descriptions[i].childNodes[0].nodeValue;
+					
+					output += '<h3>' + itemname + '</h3>';
+					output += '<p>' + description + '</p>';
+				}
+				
+				disp.innerHTML = output;
+				
+				
+			});
+			
+		})
+		
+	});
+	
+</script>
+
 </html>
 
 

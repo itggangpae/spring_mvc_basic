@@ -1,6 +1,8 @@
 package kr.co.adamsoft;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+
 import kr.co.adamsoft.domain.Item;
+import kr.co.adamsoft.domain.Member;
 import kr.co.adamsoft.domain.User;
 import kr.co.adamsoft.service.ItemService;
 
@@ -168,4 +175,50 @@ public class HomeController {
 		//출력할 뷰 이름 리턴
 		return "detail";
 	}
+	
+	//exception 요청이 발생했을 때 input.jsp를 출력하도록 해주는 메서드
+	/*
+	@RequestMapping(value="/exception", method=RequestMethod.GET)
+	public String exception() {
+		return "input";
+	}
+	*/
+	
+	//input.jsp 의 form에서 submit을 눌렀을 때 처리하도록 해주는 메서드
+	//dividend 와 divisor 파라미터의 값을 읽어서 나누셈을 해서 Model 에 저장하고
+	//result.jsp 파일에 그 내용을 출력하도록 하기
+	@GetMapping("/cal")
+	public String cal(@RequestParam("dividend") int dividend,
+			@RequestParam("divisor") int divisor, Model model) {
+		model.addAttribute("result", dividend/divisor);
+		return "result";
+	}
+	
+	//ArithmeticException 이 발생하면 출력할 페이지를 설정하는 메서드
+	@ExceptionHandler(ArithmeticException.class)
+	public String handleException(Exception e, Model model) {
+		model.addAttribute("content", e.getLocalizedMessage());
+		return "error/exception";
+	}
+	
+	//message 요청이 Get 방식으로 오면 처리하는 메서드
+	@GetMapping("/message")
+	public String message(
+			@ModelAttribute("member") Member member) {
+		return "loginform";
+	}
+	
+	//모든 결과 페이지에 loginTypes 라는 이름의 메서드의 리턴값이 전달
+	@ModelAttribute("loginTypes")
+	public List<String> loginTypes(){
+		List<String> list = new ArrayList<>();
+		list.add("일반회원");
+		list.add("VIP회원");
+		list.add("관리자");
+		return list;
+	}
 }
+
+
+
+
