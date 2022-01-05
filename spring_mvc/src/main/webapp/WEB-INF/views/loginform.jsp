@@ -15,12 +15,15 @@ uri="http://www.springframework.org/tags/form" %>
 <title><spring:message code="login.form.title"/></title>
 </head>
 <body>
+	<!-- action이 없으면 자신이 보여지게 된 요청 그대로 설정하고
+	method 가 없으면 post -->
 	<form:form modelAttribute="member">
 		<p>
 		<label for="email">
 		<spring:message code="email"/>
 		</label>
 		<form:input path="email"  />
+		<form:errors path="email" />
 		</p>
 		
 		<p>
@@ -28,6 +31,7 @@ uri="http://www.springframework.org/tags/form" %>
 		<spring:message code="password"/>
 		</label>
 		<form:password path="pw" />
+		<form:errors path="pw" />
 		</p>
 		
 		<p>

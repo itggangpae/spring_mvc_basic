@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import kr.co.adamsoft.dao.SpringUserMapper;
+import kr.co.adamsoft.domain.SpringUser;
+
 //JUnit 과 Spring-Test를 같이 사용하겠다는 설정
 @RunWith(SpringJUnit4ClassRunner.class)
 //Spring Bean Configuration 파일의 내용을 실행하겠다는 설정
@@ -36,18 +39,49 @@ public class DBTest {
 		}
 	}
 	
+	//@Autowired
+	//private SqlSession sqlSession;
+	
+	//@Test
+	//public void mybatisTest() {
+		//System.out.println("MyBatis 객체:" + sqlSession);
+	//}
+	
 	@Autowired
-	private SqlSession sqlSession;
+	private SpringUserMapper springUserMapper;
+	
+	//@Test
+	public void emailCheckTest() {
+		//존재하는 경우는 자신의 이메일 리턴
+		System.out.println(
+				springUserMapper.emailCheck("ggangpae1@gmail.com"));
+		//존재하지 않는 경우는 null
+		System.out.println(
+				springUserMapper.emailCheck("ggangpae2@gmail.com"));
+		
+	}
+	
+	//@Test
+	public void nicknameCheckTest() {
+		//존재하는 경우는 자신의 닉네임 리턴
+		System.out.println(
+				springUserMapper.nicknameCheck("군계"));
+		//존재하지 않는 경우는 null
+		System.out.println(
+				springUserMapper.nicknameCheck("싸움닭"));
+			
+	}
 	
 	@Test
-	public void mybatisTest() {
-		System.out.println("MyBatis 객체:" + sqlSession);
+	public void joinTest() {
+		SpringUser user = new SpringUser();
+		user.setEmail("ggangpae2@gmail.com");
+		user.setPw("1234");
+		user.setNickname("싸움닭");
+		user.setImage("default.png");
+		
+		//insert, delete, update 는 영향받은 행의 개수가 리턴됨
+		System.out.println(springUserMapper.join(user));
 	}
+	
 }
-
-
-
-
-
-
-

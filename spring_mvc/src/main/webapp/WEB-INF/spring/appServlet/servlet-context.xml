@@ -108,9 +108,15 @@
 		<beans:property name="basenames">
 			<beans:list>
 				<beans:value>message/label</beans:value>
+				<beans:value>message/validation</beans:value>
 			</beans:list>
 		</beans:property>
 	</beans:bean>
+	
+	<!-- 파일 업로드를 위한 bean 설정 -->
+	<beans:bean
+	class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+	id="multipartResolver"></beans:bean>
 	
 </beans:beans>
 

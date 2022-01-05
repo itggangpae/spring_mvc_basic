@@ -45,6 +45,13 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
 	
 	<li><a href="message" class="menu">스프링 메시지 출력</a>
 	
+	<li><a href="fileupload" class="menu">파일 업로드</a>
+	
+	<fieldset>
+		<legend>회원 관리</legend>
+		<li><a href="/user/join" class="menu">회원 가입</a>
+	</fieldset>
+	
 </ul>
 	<div id="disp"></div>
 	

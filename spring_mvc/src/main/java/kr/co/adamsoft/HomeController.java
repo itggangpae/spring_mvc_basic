@@ -1,33 +1,40 @@
 package kr.co.adamsoft;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
-
+import kr.co.adamsoft.domain.EmailReport;
 import kr.co.adamsoft.domain.Item;
 import kr.co.adamsoft.domain.Member;
 import kr.co.adamsoft.domain.User;
 import kr.co.adamsoft.service.ItemService;
+import kr.co.adamsoft.validator.MemberValidator;
 
 
 //빈이 자동 생성
@@ -201,11 +208,25 @@ public class HomeController {
 		return "error/exception";
 	}
 	
-	//message 요청이 Get 방식으로 오면 처리하는 메서드
+	//message 요청이 GET 방식으로 오면 처리하는 메서드
 	@GetMapping("/message")
-	public String message(
-			@ModelAttribute("member") Member member) {
+	public String message(@ModelAttribute("member") Member member) {
 		return "loginform";
+	}
+	
+	//message 요청이 POST 방식으로 오면 처리하는 메서드
+	@PostMapping("/message")
+	public String message(
+			@Valid @ModelAttribute("member") Member member,
+			BindingResult result) {
+		//유효성 검사 수행
+		//new MemberValidator().validate(member, result);
+		//검사 결과 에러가 있으면
+		if(result.hasErrors()) {
+			return "loginform";
+		}
+		//검사 결과 에러가 없으면 시작 요청으로 리다이렉트
+		return "redirect:/";
 	}
 	
 	//모든 결과 페이지에 loginTypes 라는 이름의 메서드의 리턴값이 전달
@@ -217,6 +238,71 @@ public class HomeController {
 		list.add("관리자");
 		return list;
 	}
+	
+	//fileupload 의 GET 요청을 처리하는 메서드
+	@GetMapping("fileupload")
+	public String fileupload() {
+		return "fileupload";
+	}
+	
+	@PostMapping("fileuploadrequest")
+	//파일 업로드를 Request를 이용해서 처리
+	public String fileUpload(
+			MultipartHttpServletRequest request) {
+		String email = request.getParameter("email");
+		MultipartFile report = request.getFile("report");
+		System.out.println(email);
+		System.out.println(report);
+		
+		return "redirect:/";
+	}
+	
+	@PostMapping("fileuploadparam")
+	//파일 업로드를 @RequestParam를 이용해서 처리
+	public String fileUpload(
+			@RequestParam("email") String email, 
+			@RequestParam("report") MultipartFile report) {
+		
+		System.out.println(email);
+		System.out.println(report);
+		
+		return "redirect:/";
+	}
+	
+	@PostMapping("fileuploadcommand")
+	//파일 업로드를 @RequestParam를 이용해서 처리
+	public String fileUpload(
+			@ModelAttribute("emailReport") 
+			EmailReport emailReport, 
+			HttpServletRequest request) {
+		
+		//파일을 업로드할 경로를 생성
+		//프로젝트 내의 webapp 내의 upload 디렉토리의 절대 경로 생성
+		String uploadPath = 
+			request.getServletContext().getRealPath("/upload");
+		//업로드 된 파일의 원래 이름
+		String filename = emailReport.getReport().getOriginalFilename();
+		
+		//원본 그대로 파일명 만들기
+		//File filePath = new File(uploadPath + "/" + filename);
+		
+		//파일명에 다른 파라미터를 추가해서 파일명 만들기
+		//File filePath = new File(uploadPath + "/" + emailReport.getEmail() + filename);
+		
+		//랜덤한 문자열을 추가
+		File filePath = new File(uploadPath + "/" + UUID.randomUUID() + filename);
+		
+		try {
+			emailReport.getReport().transferTo(filePath);
+		}catch(Exception e) {
+			System.out.println(e.getLocalizedMessage());
+		}
+		
+		
+		
+		return "redirect:/";
+	}
+	
 }
 
 
