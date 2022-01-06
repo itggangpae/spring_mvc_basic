@@ -26,6 +26,11 @@
 		<beans:property name="order" value="1" />
 	</beans:bean>
 	
+	<!-- 어노테이션이 붙은 클래스의 빈을 자동생성해주는 패키지 설정
+	,를 하고 다른 패키지를 추가 할 수 있습니다. -->
+	<context:component-scan base-package="kr.co.adamsoft" />
+	
+	
 	
 	<!-- View 이름을 가지고 직접 View를 선택할 수 있도록 해주는 ViewResolver -->
 	<beans:bean 
@@ -50,11 +55,7 @@
 	<!--  Controller에서 json 이라는 뷰 이름을 리턴했을 때 JSONView로 출력 -->
 	<beans:bean id="json"
 	class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
-	
-	
-	<!-- /exception 요청이 오면 input 이라는 뷰이름을 리턴하도록 설정 -->
-	<view-controller path="/exception" view-name="input"/>
-	
+		
 	<!-- itemreport 라는 View 이름이 전달된 경우 list 라는 데이터를 
 	XML로 출력하는 요청을 처리하는 뷰 설정 -->
 	<beans:bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller"
@@ -76,9 +77,9 @@
 	
 	</beans:bean>
 	
-	<!-- 어노테이션이 붙은 클래스의 빈을 자동생성해주는 패키지 설정
-	,를 하고 다른 패키지를 추가 할 수 있습니다. -->
-	<context:component-scan base-package="kr.co.adamsoft" />
+	<!-- /exception 요청이 오면 input 이라는 뷰이름을 리턴하도록 설정 -->
+	<view-controller path="/exception" view-name="input"/>
+	
 	
 	<!-- 
 	web.xml 파일에서 서블릿 설정은 /*, /, 디렉토리 패턴을 사용하는 경우

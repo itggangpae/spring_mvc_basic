@@ -58,10 +58,13 @@ public class SpringUserServiceImpl implements SpringUserService {
 		}
 		
 		//파일 이름을 생성 - 파일 이름이 중복되지 않도록 하기 위해서
-		String originalFileName = image.getOriginalFilename();
-		//변경된 이름
-		String changeFileName = 
+		String changeFileName = "default.jpg";
+		if(image.isEmpty() == false) {
+			String originalFileName = image.getOriginalFilename();
+			//변경된 이름
+			changeFileName = 
 				UUID.randomUUID().toString() + originalFileName;
+		}
 		
 		//이메일 과 닉네임 중복검사를 통과한 경우 회원가입
 		if(emailresult == null && nicknameresult == null) {
@@ -83,7 +86,10 @@ public class SpringUserServiceImpl implements SpringUserService {
 				String filePath = uploadPath + "/" + changeFileName;
 				File f = new File(filePath);
 				try {
-					image.transferTo(f);
+					//이미지가 있는 경우만 업로드 
+					if(image.isEmpty() == false) {
+						image.transferTo(f);
+					}
 					map.put("result", true);
 				}catch(Exception e) {
 					System.out.println(e.getLocalizedMessage());
@@ -92,13 +98,8 @@ public class SpringUserServiceImpl implements SpringUserService {
 			}
 		}
 		
-		
-		
-		
 		return map;
 	}
-	
-
 }
 
 
