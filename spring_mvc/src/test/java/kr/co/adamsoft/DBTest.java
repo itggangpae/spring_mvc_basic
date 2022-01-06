@@ -54,10 +54,10 @@ public class DBTest {
 	public void emailCheckTest() {
 		//존재하는 경우는 자신의 이메일 리턴
 		System.out.println(
-				springUserMapper.emailCheck("ggangpae1@gmail.com"));
+				springUserMapper.emailCheck());
 		//존재하지 않는 경우는 null
 		System.out.println(
-				springUserMapper.emailCheck("ggangpae2@gmail.com"));
+				springUserMapper.emailCheck());
 		
 	}
 	

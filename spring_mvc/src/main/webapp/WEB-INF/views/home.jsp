@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+	pageEncoding="UTF-8"%>
+
 <!-- List를 순회하기 위해서 태그 라이브러리 설정 -->
-<%@ taglib prefix="c"
-uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- List의 데이터가 있는지 없는지 확인하기 위해서 List의 길이를 확인하기 위해서
-태그 라이브러리 설정 -->    
-<%@ taglib prefix="fn"
-uri="http://java.sun.com/jsp/jstl/functions" %>
+태그 라이브러리 설정 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 <!DOCTYPE html>
@@ -21,40 +19,43 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
 <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
-<ul>
-	<li><a href="hello" class="menu">처음 만들어보는 요청</a>
-	<li><a href="/detail/1025" class="menu">상세보기</a>
-	<li><a href="/param" class="menu">파라미터 입력</a>
-	
-	<li><a href="/forward" class="menu">forwarding - 데이터 전달</a>
-	<li><a href="/redirect" class="menu">redirect - 데이터 전달</a>
-	
-	<li><a href="fileview" class="menu">파일 목록 보기</a>
-	<li><a href="excel.xls" class="menu">엑셀 다운로드</a>
-	<li><a href="excelread" class="menu">엑셀 읽기</a>
-	<li><a href="item.pdf" class="menu">PDF 출력</a>
-	<li><a href="item.json" class="menu">JSON 출력</a>
-	
-	<li><a href="item.csv" class="menu">텍스트 출력</a>
-	<li><a href="itemrest.json" class="menu">RESTController - JSON 출력</a>
-	
-	<li><a href="#" class="menu" id="ajax">ajax 요청(json)</a>
-	<li><a href="#" class="menu" id="ajaxxml">ajax 요청(xml)</a>
-	
-	<li><a href="exception" class="menu">예외발생</a>
-	
-	<li><a href="message" class="menu">스프링 메시지 출력</a>
-	
-	<li><a href="fileupload" class="menu">파일 업로드</a>
-	
-	<fieldset>
-		<legend>회원 관리</legend>
-		<li><a href="/user/join" class="menu">회원 가입</a>
-	</fieldset>
-	
-</ul>
+	<ul>
+		<li><a href="hello" class="menu">처음 만들어보는 요청</a>
+		<li><a href="/detail/1025" class="menu">상세보기</a>
+		<li><a href="/param" class="menu">파라미터 입력</a>
+		<li><a href="/forward" class="menu">forwarding - 데이터 전달</a>
+		<li><a href="/redirect" class="menu">redirect - 데이터 전달</a>
+		<li><a href="fileview" class="menu">파일 목록 보기</a>
+		<li><a href="excel.xls" class="menu">엑셀 다운로드</a>
+		<li><a href="excelread" class="menu">엑셀 읽기</a>
+		<li><a href="item.pdf" class="menu">PDF 출력</a>
+		<li><a href="item.json" class="menu">JSON 출력</a>
+		<li><a href="item.csv" class="menu">텍스트 출력</a>
+		<li><a href="itemrest.json" class="menu">RESTController -
+				JSON 출력</a>
+		<li><a href="#" class="menu" id="ajax">ajax 요청(json)</a>
+		<li><a href="#" class="menu" id="ajaxxml">ajax 요청(xml)</a>
+		<li><a href="exception" class="menu">예외발생</a>
+		<li><a href="message" class="menu">스프링 메시지 출력</a>
+		<li><a href="fileupload" class="menu">파일 업로드</a>
+
+			<fieldset>
+				<legend>회원 관리</legend>
+				<c:if test="${userinfo.email == null}">
+					<li><a href="user/join" class="menu">회원가입</a></li>
+					<li><a href="user/login" class="menu">로그인</a></li>
+				</c:if>
+				<c:if test="${userinfo.email != null}">
+					<li><img
+						src="${pageContext.request.contextPath}/profile/${userinfo.image}" />${userinfo.nickname}님
+						<a href="user/logout" class="menu">로그아웃</a></li>
+					<li><a href="user/update" class="menu">회원 정보 수정</a></li>
+				</c:if>
+
+			</fieldset>
+	</ul>
 	<div id="disp"></div>
-	
+
 	<div align="center" class="body">
 		<h2>상품 목록</h2>
 		<table border="1">
@@ -63,35 +64,30 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
 				<th align="center" width="320">상품 이름</th>
 				<th align="center" width="100">상품 가격</th>
 			</tr>
-			
+
 			<!-- list에 데이터가 없는 경우 -->
 			<c:if test="${fn:length(list) == 0 }">
 				<tr>
-					<td colspan="3">
-						데이터가 없습니다.
-					</td>
-				</tr>		
+					<td colspan="3">데이터가 없습니다.</td>
+				</tr>
 			</c:if>
 			<!-- list에 데이터가 있는 경우 -->
 			<c:if test="${fn:length(list) != 0 }">
 				<c:forEach var="item" items="${list}">
 					<tr class="record">
 						<td align="center">${item.itemid}</td>
-						<td align="left">&nbsp;
-						<!-- 파라미터를 이용해서 데이터를 전달하는 방식 -->
-						<!-- 
+						<td align="left">&nbsp; <!-- 파라미터를 이용해서 데이터를 전달하는 방식 --> <!-- 
 						<a href="/detail.html?itemid=${item.itemid}">${item.itemname}</a>
-						 -->
-						<!-- URL을 이용해서 데이터를 전달하는 방식 --> 
-						<a href="/detail.html/${item.itemid}">${item.itemname}</a>
+						 --> <!-- URL을 이용해서 데이터를 전달하는 방식 --> <a
+							href="/detail.html/${item.itemid}">${item.itemname}</a>
 						</td>
-						<td align="right">${item.price} 원&nbsp;</td>
-					</tr>	
-					
+						<td align="right">${item.price}원&nbsp;</td>
+					</tr>
+
 				</c:forEach>
 			</c:if>
-			
-			
+
+
 		</table>
 	</div>
 </body>
