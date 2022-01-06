@@ -86,7 +86,7 @@ public class SpringUserServiceImpl implements SpringUserService {
 		}
 
 		//이메일 과 닉네임 중복검사를 통과한 경우 회원가입
-		if(emailresult == null && nicknameresult == null) {
+		if(flag == false && nicknameresult == null) {
 			//Repository 의 메서드를 호출해야 하면 필요한 파라미터를 생성
 			SpringUser springUser = new SpringUser();
 			try {

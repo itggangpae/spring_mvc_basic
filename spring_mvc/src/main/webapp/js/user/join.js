@@ -67,11 +67,10 @@ window.addEventListener("load", function(event){
 		})
 	});
 	
-	
 	//nickname 란에서 포커스가 떠나면 중복 검사를 수행
 	nickname.addEventListener('focusout', function(e){
 		//ajax 요청할 URL 과 객체를 생성
-		var url="nicknamecheck?nickname=" + nickname.value;
+		var url="nicknamecheck?email=" + nickname.value;
 	  	var request=new XMLHttpRequest();
 		
 	  	//요청 생성
@@ -91,6 +90,8 @@ window.addEventListener("load", function(event){
 			}
 		})
 	});
+	
+
 
 	//회원 가입을 누르면
 	joinbtn.addEventListener("click", function(event){
@@ -153,15 +154,17 @@ window.addEventListener("load", function(event){
 		request.open("post", url, true);
 		//폼의 데이터를 전송할 수 있는 파라미터로 생성
 		var formdata = new FormData(joinform);
-		 
+		alert(formdata); 
 		//요청 전송
 		request.send(formdata);
 		
 		//ajax 요청 응답이 오면
 		request.addEventListener('load', function show(e){
+			alert("dltkd")
+			alert(e.target.responseText)
 			//결과를 JSON 파싱
 			var map = JSON.parse(e.target.responseText);
-			
+			alert(map);
 			//회원 가입에 성공하면 서버에게 요청
 			if(map.result == true){
 			 	location.href = "../";
