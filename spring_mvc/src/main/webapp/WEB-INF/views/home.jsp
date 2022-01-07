@@ -20,6 +20,18 @@
 </head>
 <body>
 	<ul>
+		<h3>인터셉터 적용</h3>
+		<c:if test="${LOGIN == null}">
+			<li><a href="interceptor/login" class="menu">로그인</a>
+			</li>
+		</c:if>
+		<c:if test="${LOGIN != null}">
+			<li><a href="interceptor/logout" class="menu">로그아웃</a>
+			</li>
+		</c:if>
+		<li><a href="board/boardlist" class="menu">게시물보기</a></li>
+		<li><a href="board/boardwrite" class="menu">게시물작성</a></li>
+		
 		<li><a href="hello" class="menu">처음 만들어보는 요청</a>
 		<li><a href="/detail/1025" class="menu">상세보기</a>
 		<li><a href="/param" class="menu">파라미터 입력</a>
