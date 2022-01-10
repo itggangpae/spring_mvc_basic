@@ -43,6 +43,8 @@ public class LoginInterceptor implements HandlerInterceptor{
 				response.sendRedirect(
 							dest!=null ? (String)dest : "/");
 				
+			}else {
+				response.sendRedirect("/interceptor/login");
 			}
 			
 		}

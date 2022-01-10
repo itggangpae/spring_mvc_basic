@@ -154,20 +154,17 @@ window.addEventListener("load", function(event){
 		request.open("post", url, true);
 		//폼의 데이터를 전송할 수 있는 파라미터로 생성
 		var formdata = new FormData(joinform);
-		alert(formdata); 
 		//요청 전송
 		request.send(formdata);
 		
 		//ajax 요청 응답이 오면
 		request.addEventListener('load', function show(e){
-			alert("dltkd")
-			alert(e.target.responseText)
 			//결과를 JSON 파싱
 			var map = JSON.parse(e.target.responseText);
 			alert(map);
 			//회원 가입에 성공하면 서버에게 요청
 			if(map.result == true){
-			 	location.href = "../";
+			 	location.href = "/";
 			}
 			//회원 가입에 실패한 경우
 			else{

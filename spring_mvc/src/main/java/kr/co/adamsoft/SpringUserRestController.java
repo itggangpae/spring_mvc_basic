@@ -24,7 +24,9 @@ public class SpringUserRestController {
 	public Map<String, Object> join(
 			MultipartHttpServletRequest request, 
 			HttpServletResponse response){
-		return springUserService.join(request, response);
+		Map<String, Object> map = springUserService.join(request, response);
+		System.out.println(map);
+		return map;
 	}
 
 	//이메일 중복 검사 요청을 처리할 메서드
